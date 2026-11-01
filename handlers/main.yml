@@ -1,0 +1,14 @@
+# code: language=ansible
+# vim: set filetype=yaml.ansible :
+---
+- name: "enable wireguard-exporter"
+  ansible.builtin.systemd:
+    name: wireguard-exporter.service
+    enabled: true
+    daemon_reload: true
+
+- name: "restart wireguard-exporter"
+  ansible.builtin.systemd:
+    name: wireguard-exporter.service
+    state: restarted
+    daemon_reload: true

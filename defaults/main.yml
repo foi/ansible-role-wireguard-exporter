@@ -1,0 +1,7 @@
+# code: language=ansible
+# vim: set filetype=yaml.ansible :
+---
+wireguard_exporter_version: v0.3.0
+wireguard_exporter_opts: []
+wireguard_exporter_arch: x86_64
+wireguard_exporter_user: wireguard-exporter

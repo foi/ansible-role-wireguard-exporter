@@ -1,0 +1,19 @@
+[Unit]
+Description=wireguard exporter
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User={{ wireguard_exporter_user }}
+Restart=always
+RestartSec=5s
+Type=simple
+ExecStart=/usr/local/bin/wireguard_exporter {{ wireguard_exporter_opts | join(' ') }}
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=full
+AmbientCapabilities=CAP_DAC_READ_SEARCH CAP_NET_ADMIN CAP_NET_RAW
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH CAP_NET_ADMIN CAP_NET_RAW
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,37 @@
+# code: language=ansible
+# vim: set filetype=yaml.ansible :
+---
+- name: "install : create user"
+  ansible.builtin.user:
+    name: "{{ wireguard_exporter_user }}"
+    system: true
+    create_home: false
+    shell: /usr/sbin/nologin
+
+- name: "install : download wireguard exporter release archive"
+  ansible.builtin.uri:
+    url: "https://github.com/kbknapp/wireguard_exporter/releases/download/{{ wireguard_exporter_version }}/wireguard_exporter-{{ wireguard_exporter_version }}-{{ wireguard_exporter_arch }}-linux-musl.tar.gz"
+    mode: 0644
+    dest: /tmp/
+    status_code:
+      - 200
+      - 304
+    creates: "/tmp/wireguard_exporter-{{ wireguard_exporter_version }}-{{ wireguard_exporter_arch }}-linux-musl.tar.gz"
+
+- name: "install : extract binary"
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/wireguard_exporter-{{ wireguard_exporter_version }}-{{ wireguard_exporter_arch }}-linux-musl.tar.gz"
+    dest: /usr/local/bin/
+    mode: 0755
+    include:
+      - ./wireguard_exporter
+
+- name: "install : render wireguard-exporter service"
+  ansible.builtin.template:
+    src: wireguard-exporter.service.j2
+    dest: /etc/systemd/system/wireguard-exporter.service
+    mode: 0644
+  notify:
+    - "enable wireguard-exporter"
+    - "restart wireguard-exporter"
