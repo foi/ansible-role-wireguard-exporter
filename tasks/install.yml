@@ -10,7 +10,7 @@
 
 - name: "install : download wireguard exporter release archive"
   ansible.builtin.uri:
-    url: "https://github.com/kbknapp/wireguard_exporter/releases/download/{{ wireguard_exporter_version }}/wireguard_exporter-{{ wireguard_exporter_version }}-{{ wireguard_exporter_arch }}-linux-musl.tar.gz"
+    url: "https://github.com/foi/wireguard_exporter/releases/download/{{ wireguard_exporter_version }}/wireguard_exporter-{{ wireguard_exporter_version }}-{{ wireguard_exporter_arch }}-linux-musl.tar.gz"
     mode: 0644
     dest: /tmp/
     status_code:
